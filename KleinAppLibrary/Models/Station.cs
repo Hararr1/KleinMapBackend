@@ -1,9 +1,8 @@
-﻿using System;
+﻿using KleinAppLibrary.Enums;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace KleinMapAPI.Models
+namespace KleinAppLibrary.Models
 {
     public class Station
     {
@@ -13,5 +12,9 @@ namespace KleinMapAPI.Models
         public string gegrLon { get; set; }
         public City city { get; set; }
         public string? addressStreet { get; set; }
+
+        public IEnumerable<Sensor> sensors { get; set; }
+        public State state { get; set; }
+        public DateTime lastUpdate { get; set; }
     }
 }

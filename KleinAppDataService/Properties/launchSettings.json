@@ -1,0 +1,10 @@
+﻿{
+  "profiles": {
+    "KleinAppDataService": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

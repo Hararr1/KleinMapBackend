@@ -1,35 +1,31 @@
-﻿using KleinMapAPI.API;
-using KleinMapAPI.Models;
-using KleinMapAPI.Workspace;
+﻿using KleinAppLibrary.Managers;
+using KleinAppLibrary.Models;
+using KleinAppLibrary.Values;
 using Microsoft.AspNetCore.Mvc;
-using System;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace KleinMapAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class GIOSController : ControllerBase
     {
-        [HttpGet]
-        public async Task<IEnumerable<Station>> GetStations(int Id)
+        private readonly IConfiguration configuration;
+        public GIOSController(IConfiguration config)
         {
-            DateTime time = WorkspaceItemCollection.DownloadTime;
+            configuration = config;
+        }
 
+        [HttpGet]
+        public async Task<IEnumerable<Station>> GetStations(int provinceId)
+        {
             string province;
-            DictonaryValues.Provinces.TryGetValue(Id, out province);
+            DictonaryValues.Provinces.TryGetValue(provinceId, out province);
 
-            if (WorkspaceItemCollection.AllStations == null ||
-                time.AddMinutes(30) < DateTime.Now)
-            {
-                WorkspaceItemCollection.AllStations = await APIClient.Instance.GetAllStations();
-                WorkspaceItemCollection.DownloadTime = DateTime.Now;
-            }
-
-            var output =  WorkspaceItemCollection.AllStations.Where(x => x.city.commune.provinceName == province);
-            return output;
+            string dataPath = configuration.GetSection("DataDirectory").Value;
+            return await FileManager.Instance.LoadDataAsync(province, dataPath);
         }
     }
 }
