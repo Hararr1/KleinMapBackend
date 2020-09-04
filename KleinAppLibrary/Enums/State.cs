@@ -1,4 +1,4 @@
-﻿namespace KleinAppLibrary.Enums
+﻿namespace KleinMapLibrary.Enums
 {
     public enum State
     {

@@ -1,11 +1,11 @@
-﻿using KleinAppLibrary.Models;
+﻿using KleinMapLibrary.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace KleinAppLibrary.Managers
+namespace KleinMapLibrary.Managers
 {
     public class FileManager
     {

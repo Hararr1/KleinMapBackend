@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace KleinAppLibrary.Models
+namespace KleinMapLibrary.Models
 {
     public class ParamData
     {

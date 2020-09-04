@@ -1,6 +1,6 @@
-using KleinAppLibrary.Managers;
-using KleinAppLibrary.Models;
-using KleinAppLibrary.Values;
+using KleinMapLibrary.Managers;
+using KleinMapLibrary.Models;
+using KleinMapLibrary.Values;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace KleinAppDataService
+namespace KleinMapDataService
 {
     public class Worker : BackgroundService
     {

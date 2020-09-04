@@ -1,7 +1,7 @@
-﻿using KleinAppLibrary.Enums;
+﻿using KleinMapLibrary.Enums;
 using System;
 
-namespace KleinAppLibrary.Models
+namespace KleinMapLibrary.Models
 {
     public class Sensor
     {

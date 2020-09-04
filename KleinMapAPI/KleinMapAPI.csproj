@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\KleinAppLibrary\KleinAppLibrary.csproj" />
+    <ProjectReference Include="..\KleinAppLibrary\KleinMapLibrary.csproj" />
   </ItemGroup>
 
 

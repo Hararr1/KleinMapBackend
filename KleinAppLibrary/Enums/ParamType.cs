@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace KleinAppLibrary.Enums
+﻿namespace KleinMapLibrary.Enums
 {
     public enum ParamType : int
     {

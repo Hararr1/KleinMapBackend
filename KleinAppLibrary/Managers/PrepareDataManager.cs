@@ -1,6 +1,6 @@
-﻿using KleinAppLibrary.Enums;
+﻿using KleinMapLibrary.Enums;
 
-namespace KleinAppLibrary.Managers
+namespace KleinMapLibrary.Managers
 {
     public static class PrepareDataManager
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace KleinAppLibrary.Values
+namespace KleinMapLibrary.Values
 {
     public static class DictonaryValues
     {

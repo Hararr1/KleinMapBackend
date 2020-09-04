@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace KleinAppDataService
+namespace KleinMapDataService
 {
     public class Program
     {

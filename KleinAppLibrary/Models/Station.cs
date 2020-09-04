@@ -1,8 +1,8 @@
-﻿using KleinAppLibrary.Enums;
+﻿using KleinMapLibrary.Enums;
 using System;
 using System.Collections.Generic;
 
-namespace KleinAppLibrary.Models
+namespace KleinMapLibrary.Models
 {
     public class Station
     {

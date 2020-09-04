@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KleinMapAPI", "KleinMapAPI\KleinMapAPI.csproj", "{39AB1D9D-2B28-459D-90E5-805F0125275C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KleinAppLibrary", "KleinAppLibrary\KleinAppLibrary.csproj", "{7CC6F8E6-502B-4BFE-AEB2-E5D5EF8A499E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KleinMapLibrary", "KleinAppLibrary\KleinMapLibrary.csproj", "{7CC6F8E6-502B-4BFE-AEB2-E5D5EF8A499E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KleinAppDataService", "KleinAppDataService\KleinAppDataService.csproj", "{BE8E13FA-256D-48A7-B890-171DDAB9CAD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KleinMapDataService", "KleinAppDataService\KleinMapDataService.csproj", "{BE8E13FA-256D-48A7-B890-171DDAB9CAD5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

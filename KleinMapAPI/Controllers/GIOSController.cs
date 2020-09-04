@@ -1,6 +1,6 @@
-﻿using KleinAppLibrary.Managers;
-using KleinAppLibrary.Models;
-using KleinAppLibrary.Values;
+﻿using KleinMapLibrary.Managers;
+using KleinMapLibrary.Models;
+using KleinMapLibrary.Values;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;

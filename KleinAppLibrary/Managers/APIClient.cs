@@ -1,5 +1,5 @@
-﻿using KleinAppLibrary.Enums;
-using KleinAppLibrary.Models;
+﻿using KleinMapLibrary.Enums;
+using KleinMapLibrary.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace KleinAppLibrary.Managers
+namespace KleinMapLibrary.Managers
 {
     public class APIClient
     {

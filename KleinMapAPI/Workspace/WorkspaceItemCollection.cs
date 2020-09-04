@@ -1,4 +1,4 @@
-﻿using KleinAppLibrary.Models;
+﻿using KleinMapLibrary.Models;
 using System.Collections.Generic;
 
 namespace KleinMapAPI.Workspace
