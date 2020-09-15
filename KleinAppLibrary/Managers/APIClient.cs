@@ -32,6 +32,7 @@ namespace KleinMapLibrary.Managers
             apiClient.BaseAddress = new Uri(this.baseUrl);
             apiClient.DefaultRequestHeaders.Accept.Clear();
             apiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            apiClient.Timeout = TimeSpan.FromSeconds(30);
         }
 
         // ------ API CALLS ------ //

@@ -1,4 +1,7 @@
 ﻿using KleinMapLibrary.Enums;
+using KleinMapLibrary.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace KleinMapLibrary.Managers
 {
@@ -231,6 +234,25 @@ namespace KleinMapLibrary.Managers
             }
 
             return type;
+        }
+
+        public static State MedianState(IEnumerable<Station> stations)
+        {
+            IEnumerable<Sensor> sensors = stations.SelectMany(station => station.sensors);
+            State state = State.Unknown;
+
+            if (sensors != null && sensors.Count() > 1)
+            {
+                IEnumerable<State> states = sensors.OrderBy(sensor => sensor.state).Select(x => x.state);
+                int middle = (states.Count() / 2) - 1;
+
+                state = states.ElementAt(middle);
+            } else if (sensors.Count() == 1)
+            {
+                state = sensors.ElementAt(0).state;
+            }
+
+            return state;
         }
     }
 }

@@ -29,27 +29,37 @@ namespace KleinMapDataService
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                 string dataPath = configuration.GetSection("DataDirectory").Value;
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-
-                 AllStations = await APIClient.Instance.GetAllStations();
-                _logger.LogInformation("Get all station at: {time}", DateTimeOffset.Now);
-
-                foreach (Station station in AllStations)
+                try
                 {
-                    station.sensors = await APIClient.Instance.GetSensors(station.id);
-                    _logger.LogInformation("Get sensors for {station} with data at: {time}", new object[] { station.stationName, DateTimeOffset.Now });
-                    station.state = station.sensors.Max(sensor => sensor.state);
-                }
+                    string dataPath = configuration.GetSection("DataDirectory").Value;
+                    _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
 
-                foreach (var province in DictonaryValues.Provinces)
+                    AllStations = await APIClient.Instance.GetAllStations();
+                    _logger.LogInformation("Get all station at: {time}", DateTimeOffset.Now);
+
+                    foreach (Station station in AllStations)
+                    {
+                        station.sensors = await APIClient.Instance.GetSensors(station.id);
+                        _logger.LogInformation("Get sensors for {station} with data at: {time}", new object[] { station.stationName, DateTimeOffset.Now });
+                        station.state = station.sensors.Max(sensor => sensor.state);
+                    }
+
+                    foreach (var province in DictonaryValues.Provinces)
+                    {
+                        IEnumerable<Station> stations = AllStations.Where(station => station.city.commune.provinceName == province.Value);
+                        PrepareDataManager.MedianState(stations);
+                        await FileManager.Instance.SaveDataAsync(stations, province.Value, dataPath);
+                        _logger.LogInformation("Save data in province {province} at: {time}", new object[] { province.Value, DateTimeOffset.Now });
+                    }
+                }
+                catch (Exception ex)
                 {
-                    IEnumerable<Station> stations = AllStations.Where(station => station.city.commune.provinceName == province.Value);  
-                    await FileManager.Instance.SaveDataAsync(stations, province.Value, dataPath);
-                    _logger.LogInformation("Save data in province {province} at: {time}", new object[] { province.Value, DateTimeOffset.Now });
+                    _logger.LogWarning("Somethink wrong! at: {time} with error {error}", DateTimeOffset.Now, ex);
                 }
-
-                await Task.Delay(1800000, stoppingToken);
+                finally
+                {
+                    await Task.Delay(1800000, stoppingToken);
+                }
             }
         }
 
