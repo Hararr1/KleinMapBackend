@@ -13,5 +13,6 @@ namespace KleinMapLibrary.Models
         public ParamType type { get; set; }
         public State state { get; set; }
         public double worstValue { get; set; }
+        public double currentValue { get; set; }
     }
 }

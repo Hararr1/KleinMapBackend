@@ -100,6 +100,7 @@ namespace KleinMapLibrary.Managers
                                     if (lastValue != double.MaxValue)
                                     {
                                         sensor.state = PrepareDataManager.SetState(sensor.type, lastValue);
+                                        sensor.currentValue = lastValue;
                                     }
                                     else
                                     {

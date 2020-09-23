@@ -12,9 +12,9 @@ namespace KleinMapLibrary.Models
         public string gegrLon { get; set; }
         public City city { get; set; }
         public string? addressStreet { get; set; }
-
         public IEnumerable<Sensor> sensors { get; set; }
         public State state { get; set; }
+        public State provinceState { get; set; }
         public DateTime lastUpdate { get; set; }
     }
 }

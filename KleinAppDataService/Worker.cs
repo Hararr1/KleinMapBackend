@@ -1,3 +1,4 @@
+using KleinMapLibrary.Enums;
 using KleinMapLibrary.Managers;
 using KleinMapLibrary.Models;
 using KleinMapLibrary.Values;
@@ -47,7 +48,13 @@ namespace KleinMapDataService
                     foreach (var province in DictonaryValues.Provinces)
                     {
                         IEnumerable<Station> stations = AllStations.Where(station => station.city.commune.provinceName == province.Value);
-                        PrepareDataManager.MedianState(stations);
+                        State provinceState = PrepareDataManager.MedianState(stations);
+
+                        foreach (Station station in stations)
+                        {
+                            station.provinceState = provinceState;
+                        }
+
                         await FileManager.Instance.SaveDataAsync(stations, province.Value, dataPath);
                         _logger.LogInformation("Save data in province {province} at: {time}", new object[] { province.Value, DateTimeOffset.Now });
                     }
