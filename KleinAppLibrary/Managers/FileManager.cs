@@ -39,6 +39,11 @@ namespace KleinMapLibrary.Managers
 
         public async Task SaveDataAsync(IEnumerable<Station> data, string provinceName, string directory)
         {
+            if (! Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
             await Task.Run(() =>
             {
                 using (StreamWriter file = File.CreateText($"{directory}{provinceName}.json"))
