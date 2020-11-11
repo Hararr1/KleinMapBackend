@@ -191,6 +191,35 @@ namespace KleinMapLibrary.Managers
 
                     break;
 
+                case ParamType.SO2:
+
+                    if (value >= 0 && value <= 50)
+                    {
+                        state = State.VeryGood;
+                    }
+                    else if (value >= 50.1 && value <= 100)
+                    {
+                        state = State.Good;
+                    }
+                    else if (value >= 100.1 && value <= 200)
+                    {
+                        state = State.OK;
+                    }
+                    else if (value >= 200.1 && value <= 350)
+                    {
+                        state = State.Warning;
+                    }
+                    else if (value >= 350.1 && value <= 500)
+                    {
+                        state = State.NonFatal;
+                    }
+                    else if (value > 500)
+                    {
+                        state = State.Fatal;
+                    }
+
+                    break;
+
                 default:
                     state = State.Unknown;
                     break;
@@ -226,6 +255,10 @@ namespace KleinMapLibrary.Managers
 
                 case "C6H6":
                     type = ParamType.C6H6;
+                    break;
+
+                case "SO2":
+                    type = ParamType.SO2;
                     break;
 
                 default:
