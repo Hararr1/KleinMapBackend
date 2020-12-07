@@ -16,14 +16,14 @@ namespace KleinMapDataService
     public class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
-        private readonly IConfiguration configuration;
+        private readonly IConfiguration _configuration;
         private static IEnumerable<Station> AllStations { get; set; }
 
 
         public Worker(ILogger<Worker> logger, IConfiguration config)
         {
             _logger = logger;
-            configuration = config;
+            _configuration = config;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -32,7 +32,7 @@ namespace KleinMapDataService
             {
                 try
                 {
-                    string dataPath = configuration.GetSection("DataDirectory").Value;
+                    string dataPath = _configuration.GetSection("DataDirectory").Value;
                     _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
 
                     AllStations = await APIClient.Instance.GetAllStations();

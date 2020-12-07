@@ -268,7 +268,6 @@ namespace KleinMapLibrary.Managers
 
             return type;
         }
-
         public static State MedianState(IEnumerable<Station> stations)
         {
             IEnumerable<Sensor> sensors = stations.SelectMany(station => station.sensors);

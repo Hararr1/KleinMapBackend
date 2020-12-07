@@ -143,7 +143,7 @@ namespace KleinMapLibrary.Managers
                             return new ParamData();
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         return new ParamData();
                     }

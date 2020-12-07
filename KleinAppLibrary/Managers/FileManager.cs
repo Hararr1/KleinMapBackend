@@ -13,10 +13,7 @@ namespace KleinMapLibrary.Managers
         private static FileManager instance;
         public static FileManager Instance => instance = instance ?? new FileManager();
 
-        private FileManager()
-        { 
-        }
-
+        private FileManager(){}
 
         public async Task<IEnumerable<Station>> LoadDataAsync(string provinceName, string directory)
         {
@@ -55,11 +52,6 @@ namespace KleinMapLibrary.Managers
                     }
                 }
             });
-        }
-
-        private async Task LoadAsync()
-        {
-
         }
     }
 }

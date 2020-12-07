@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KleinMapLibrary", "KleinApp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KleinMapDataService", "KleinAppDataService\KleinMapDataService.csproj", "{BE8E13FA-256D-48A7-B890-171DDAB9CAD5}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KleinMapAlertService", "KleinMapAlertService\KleinMapAlertService.csproj", "{B239B238-715B-4B90-98B1-599E27D9B27C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{BE8E13FA-256D-48A7-B890-171DDAB9CAD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE8E13FA-256D-48A7-B890-171DDAB9CAD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE8E13FA-256D-48A7-B890-171DDAB9CAD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B239B238-715B-4B90-98B1-599E27D9B27C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B239B238-715B-4B90-98B1-599E27D9B27C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B239B238-715B-4B90-98B1-599E27D9B27C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B239B238-715B-4B90-98B1-599E27D9B27C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
