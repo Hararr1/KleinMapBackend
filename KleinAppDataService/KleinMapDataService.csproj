@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Worker">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>dotnet-KleinAppDataService-A43B2018-A61B-48F7-9C4E-1E3FD267388B</UserSecretsId>
   </PropertyGroup>
 
