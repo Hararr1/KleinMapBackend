@@ -37,8 +37,13 @@ namespace KleinMapAPI.Controllers
                 .ExecuteSelectQuery<Subscriber>($"SELECT * FROM Subscribers WHERE Id = {userId}");
 
             bool isVerify = EncryptionHelper.VerifyMd5Hash(user, hash);
+            int output = 0;
 
-            int output = await _databaseClient.ExecuteModifyQuery($"UPDATE Subcribers SET [IsVerify] = 1 WHERE [Id] = {user.Id}");
+            if (isVerify)
+            {
+                output = await _databaseClient.ExecuteModifyQuery($"UPDATE Subcribers SET [IsVerify] = 1 WHERE [Id] = {user.Id}");
+            }
+ 
             return output == 1 ? Ok() : NoContent();
         }
     }
