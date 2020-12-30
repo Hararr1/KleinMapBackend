@@ -30,6 +30,19 @@ namespace KleinMapLibrary.Managers
 
             return output.Where(predicate);
         }
+
+        public int ExecuteModifyQuery(string query)
+        {
+            string connectionString = _configuration.GetConnectionString("KleinMapDB");
+            int output;
+
+            using (IDbConnection cnn = new SQLiteConnection(connectionString))
+            {
+                output = cnn.Execute(query);
+            }
+
+            return output;
+        }
     }
 
 

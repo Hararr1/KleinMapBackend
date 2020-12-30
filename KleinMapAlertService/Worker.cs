@@ -7,7 +7,6 @@ using KleinMapLibrary.Values;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using RazorEngineCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,17 +59,12 @@ namespace KleinMapAlertService
 
                 _logger.LogInformation("Get all data for {count} stations", allStations.Count);
 
-                allSubscribers = allSubscribers ?? _databaseClient.ExecuteSelectQuery<Subscriber>(s => s.Id > 0, "SELECT * FROM Subscribers").ToList();
+                allSubscribers ??= _databaseClient.ExecuteSelectQuery<Subscriber>(s => s.Id > 0, "SELECT * FROM Subscribers").ToList();
 
                 IEnumerable<Subscriber> newSubscribers = allSubscribers.FindAll(s => s.IsSendVerifyCode == 0) ?? _databaseClient
                     .ExecuteSelectQuery<Subscriber>(s =>
                         s.IsSendVerifyCode == 0,
                         $"SELECT * FROM Subscribers WHERE [Id] > {lastUserIndex}");
-
-                if (allSubscribers.Any(s => s.IsSendVerifyCode == 0) == false)
-                {
-                    allSubscribers.AddRange(newSubscribers);
-                }
 
                 foreach (Subscriber newSub in newSubscribers)
                 {
@@ -86,13 +80,25 @@ namespace KleinMapAlertService
                     });
 
                     _smtpClient.SendMail("dailyanalytics@kleinmap.com", "to@example.com", "KleinMap verify code", result);
-
                     _logger.LogInformation("Sended e-mail to {mailAddress} at: {time}", newSub.MailAddress, DateTimeOffset.Now);
+
+                    if (allSubscribers.FirstOrDefault(s => s.Id == newSub.Id) == null)
+                    {
+                        newSub.IsSendVerifyCode = 1;
+                        allSubscribers.Add(newSub);
+                    } else
+                    {
+                        // First loop ExecuteAsync
+                        allSubscribers.First(s => s.Id == newSub.Id).IsSendVerifyCode = 1;
+                    }
+
+                    int isUpdate = _databaseClient.ExecuteModifyQuery($"UPDATE Subscribers SET [IsVerify] = 1 WHERE [Id] = {newSub.Id}");
+                    _logger.LogInformation("Updated database for {mailAddress} at: {time} with status: {isUpdate}", newSub.MailAddress, DateTimeOffset.Now, isUpdate);
                 }
 
                 lastUserIndex = allSubscribers.Max(s => s.Id);
 
-                await Task.Delay(1000, stoppingToken);
+                await Task.Delay(3000, stoppingToken);
             }
         }
     }

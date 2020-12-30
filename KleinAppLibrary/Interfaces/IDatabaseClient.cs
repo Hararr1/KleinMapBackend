@@ -7,5 +7,6 @@ namespace KleinMapLibrary.Interfaces
     public interface IDatabaseClient
     {
         public IEnumerable<T> ExecuteSelectQuery<T>(Expression<Func<T, bool>> predicate, string query);
+        public int ExecuteModifyQuery(string query);
     }
 }
