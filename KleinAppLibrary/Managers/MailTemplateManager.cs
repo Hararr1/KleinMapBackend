@@ -18,8 +18,20 @@ namespace KleinMapLibrary.Managers
         {
             Dictionary<TemplateType, IRazorEngineCompiledTemplate> output = new Dictionary<TemplateType, IRazorEngineCompiledTemplate>();
             // ++++++ CONFIRM TEMPLATE ++++++ //
-            output.Add(TemplateType.Confirm, _razorEngine.Compile("Hi! If you'd like to subscribe to receive daily data analysis for @Model.StationName, click the button below <button>Subscribe</button>!"));
+            output.Add(TemplateType.Confirm, _razorEngine.Compile(
+                "<h1 style=\"margin: 0 auto;width: max-content; color: #3abbfb;\">KleinApp</h1>" +
+                "<h2 style=\"text-align: center;\">Hi! If you'd like to subscribe to receive daily data analysis for @Model.StationName, click the button below or go to the link!</h2>" +
+                "<form style=\"display: flex; margin-top: 10px;\">" +
+                    "<a href=\"@Model.KleinAppAddress\" style=\"width: 220px; font-size: 30px; font-weight: bold; color: white; " +
+                        "background-color: #00b08c; border: none; border-radius: 5px; margin: 0 auto; text-align: center; text-decoration: none;\">" +
+                        "Subscribe" +
+                    "</a>" +
+                "</form>"));
             // ++++++ ANALYSIS TEMPLATE ++++++ //
+            output.Add(TemplateType.Analysis, _razorEngine.Compile("" +
+                "<h1 style=\"margin: 0 auto;width: max-content; color: #3abbfb;\">KleinApp daily e-mail</h1>" +
+                "@foreach(var station in Model.Stations) {" +
+                "<p>@station?.stationName</p>}"));
             return output;
         }
 
