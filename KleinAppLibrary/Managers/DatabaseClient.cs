@@ -7,6 +7,7 @@ using System.Data;
 using System.Data.SQLite;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace KleinMapLibrary.Managers
 {
@@ -18,27 +19,42 @@ namespace KleinMapLibrary.Managers
             _configuration = configuration;
         }
 
-        public IEnumerable<T> ExecuteSelectQuery<T>(Expression<Func<T, bool>> predicate, string query)
+        public async Task<IEnumerable<T>> ExecuteSelectQuery<T>(Expression<Func<T, bool>> predicate, string query)
         {
             string connectionString = _configuration.GetConnectionString("KleinMapDB");
             IQueryable<T> output;
 
             using (IDbConnection cnn = new SQLiteConnection(connectionString))
             {
-                output = cnn.Query<T>(query).ToList().AsQueryable();
+                var x = await cnn.QueryAsync<T>(query);
+                output = x.ToList().AsQueryable();
             }
 
             return output.Where(predicate);
         }
 
-        public int ExecuteModifyQuery(string query)
+        public async Task<int> ExecuteModifyQuery(string query)
         {
             string connectionString = _configuration.GetConnectionString("KleinMapDB");
             int output;
 
             using (IDbConnection cnn = new SQLiteConnection(connectionString))
             {
-                output = cnn.Execute(query);
+                output = await cnn.ExecuteAsync(query);
+            }
+
+            return output;
+        }
+
+        public async Task<T> ExecuteSelectQuery<T>(string query)
+        {
+            string connectionString = _configuration.GetConnectionString("KleinMapDB");
+            T output;
+
+            using (IDbConnection cnn = new SQLiteConnection(connectionString))
+            {
+                var x = await cnn.QueryAsync<T>(query);
+                output = x.First();
             }
 
             return output;
