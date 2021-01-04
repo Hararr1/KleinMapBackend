@@ -12,21 +12,42 @@ namespace KleinMapLibrary.Managers
         // ------ SINGLETON ------ //
         private static FileManager instance;
         public static FileManager Instance => instance = instance ?? new FileManager();
+        private static readonly object lockObject = new object();
 
         private FileManager(){}
 
         public async Task<IEnumerable<Station>> LoadDataAsync(string provinceName, string directory)
         {
             IEnumerable<Station> stations = null;
-
+    
             await Task.Run(() =>
             {
-                using (StreamReader file = File.OpenText($"{directory}{provinceName}.json"))
+                lock (lockObject)
                 {
-                    using (JsonTextReader reader = new JsonTextReader(file))
+                    if (File.Exists($"{directory}{provinceName}.json"))
                     {
-                        JsonSerializer serializer = new JsonSerializer();
-                        stations = serializer.Deserialize<IEnumerable<Station>>(reader);
+                        try
+                        {
+                            using (StreamReader file = File.OpenText($"{directory}{provinceName}.json"))
+                            {
+                                using (JsonTextReader reader = new JsonTextReader(file))
+                                {
+                                    JsonSerializer serializer = new JsonSerializer();
+                                    stations = serializer.Deserialize<IEnumerable<Station>>(reader);
+                                }
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            using (StreamReader file = File.OpenText($"{directory}{provinceName}.json"))
+                            {
+                                using (JsonTextReader reader = new JsonTextReader(file))
+                                {
+                                    JsonSerializer serializer = new JsonSerializer();
+                                    stations = serializer.Deserialize<IEnumerable<Station>>(reader);
+                                }
+                            }
+                        }          
                     }
                 }
             });
@@ -43,14 +64,31 @@ namespace KleinMapLibrary.Managers
 
             await Task.Run(() =>
             {
-                using (StreamWriter file = File.CreateText($"{directory}{provinceName}.json"))
+                lock (lockObject)
                 {
-                    using (JsonWriter jsonWriter = new JsonTextWriter(file))
+                    try
                     {
-                        JsonSerializer serializer = new JsonSerializer();
-                        serializer.Serialize(jsonWriter, data);
+                        using (StreamWriter file = File.CreateText($"{directory}{provinceName}.json"))
+                        {
+                            using (JsonWriter jsonWriter = new JsonTextWriter(file))
+                            {
+                                JsonSerializer serializer = new JsonSerializer();
+                                serializer.Serialize(jsonWriter, data);
+                            }
+                        }
                     }
-                }
+                    catch (Exception)
+                    {
+                        using (StreamWriter file = File.CreateText($"{directory}{provinceName}.json"))
+                        {
+                            using (JsonWriter jsonWriter = new JsonTextWriter(file))
+                            {
+                                JsonSerializer serializer = new JsonSerializer();
+                                serializer.Serialize(jsonWriter, data);
+                            }
+                        }
+                    }             
+                }   
             });
         }
     }

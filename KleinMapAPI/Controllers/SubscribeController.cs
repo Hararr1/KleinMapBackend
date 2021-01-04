@@ -3,6 +3,7 @@ using KleinMapLibrary.Interfaces;
 using KleinMapLibrary.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -25,7 +26,7 @@ namespace KleinMapAPI.Controllers
         {
             int output = await _databaseClient.ExecuteModifyQuery(
                 $"INSERT INTO Subscribers (MailAddress, IsVerify, StationId, IsSendVerifyCode) VALUES " +
-                $"({newSub.MailAddress}, {newSub.IsVerify}, {newSub.StationId}, {newSub.IsSendVerifyCode})");
+                $"('{newSub.MailAddress}', {newSub.IsVerify}, {newSub.StationId}, {newSub.IsSendVerifyCode})");
 
             return output == 1 ? Ok() : NoContent();
         }
@@ -41,10 +42,17 @@ namespace KleinMapAPI.Controllers
 
             if (isVerify)
             {
-                output = await _databaseClient.ExecuteModifyQuery($"UPDATE Subcribers SET [IsVerify] = 1 WHERE [Id] = {user.Id}");
+                IEnumerable<Subscriber> subscribers = await _databaseClient.ExecuteSelectQuery<Subscriber>(s =>
+                    s.MailAddress == user.MailAddress, "SELECT * FROM Subscribers");
+
+                foreach (Subscriber sub in subscribers)
+                {
+                    output += await _databaseClient.ExecuteModifyQuery($"UPDATE Subscribers SET [IsVerify] = 1 WHERE [Id] = {sub.Id}");
+                }
+  
             }
  
-            return output == 1 ? Ok() : NoContent();
+            return output > 0 ? Ok() : NoContent();
         }
     }
 }

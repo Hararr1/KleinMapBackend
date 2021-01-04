@@ -4,7 +4,7 @@ namespace KleinMapLibrary.Values
 {
     public static class DictonaryValues
     {
-        public static Dictionary<int, string> Provinces = new Dictionary<int, string>()
+        public static readonly Dictionary<int, string> Provinces = new Dictionary<int, string>()
         {
             {1, "POMORSKIE"},
             {2, "KUJAWSKO-POMORSKIE"},

@@ -42,14 +42,14 @@ namespace KleinMapDataService
                     {
                         station.sensors = await APIClient.Instance.GetSensors(station.id);
                         _logger.LogInformation("Get sensors for {station} with data at: {time}", new object[] { station.stationName, DateTimeOffset.Now });
-                        station.state = station.sensors.Max(sensor => sensor.state);
+                        station.state = station.sensors.Count() > 0 ? station.sensors.Max(sensor => sensor.state) : State.Unknown;
                     }
 
                     foreach (var province in DictonaryValues.Provinces)
                     {
-                        IEnumerable<Station> stations = AllStations.Where(station => station.city.commune.provinceName == province.Value);
+                        IEnumerable<Station> stations = AllStations.Where(station => station?.city?.commune?.provinceName == province.Value);
                         State provinceState = PrepareDataManager.MedianState(stations);
-
+                   
                         foreach (Station station in stations)
                         {
                             station.provinceState = provinceState;

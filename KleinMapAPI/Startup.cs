@@ -1,3 +1,5 @@
+using KleinMapLibrary.Interfaces;
+using KleinMapLibrary.Managers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -33,6 +35,8 @@ namespace KleinMapAPI
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             }));
+
+            services.AddTransient<IDatabaseClient, DatabaseClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

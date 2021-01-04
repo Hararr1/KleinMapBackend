@@ -75,25 +75,39 @@ namespace KleinMapAlertService
 
             foreach (Subscriber newSub in newSubscribers)
             {
+                if (newSub.IsSendVerifyCode == 1)
+                {
+                    continue;
+                }
+
+                foreach (Subscriber subToUpdate in newSubscribers.Where(s => s.MailAddress == newSub.MailAddress))
+                {
+                    int isUpdate = await _databaseClient.ExecuteModifyQuery($"UPDATE Subscribers SET [IsSendVerifyCode] = 1 WHERE [Id] = {subToUpdate.Id}");
+                    subToUpdate.IsSendVerifyCode = 1;
+                }
+
+                _logger.LogInformation("IsSendVerifyCode updated for {mailAddress} at: {time}", newSub.MailAddress, DateTimeOffset.Now);
+
                 string verifyCode = EncryptionHelper.GetMd5Hash(newSub);
-                string stationName = allStations.FirstOrDefault(station => station.id == newSub.StationId)?.stationName;
+
+                IEnumerable<int> stationsID = newSubscribers
+                    .Where(s => s.MailAddress == newSub.MailAddress)
+                    .Select(s => s.StationId);
+
+                IEnumerable<string> stationsName = allStations
+                    .Where(station => stationsID.Contains(station.id))
+                    .Select(station => station?.stationName);
 
                 string mailTemplate = _mailTemplateManager.GetTemplate(TemplateType.Confirm).Run(new
                 {
-                    KleinAppAddress = $"{_configuration.GetSection("KleinAppAddress").Value}daily?userId={newSub.Id}?code={verifyCode}",
+                    KleinAppAddress = $"{_configuration.GetSection("KleinAppAddress").Value}daily/userId/{newSub.Id}/code/{verifyCode}",
                     VerifyCode = verifyCode,
-                    StationName = stationName,
+                    StationsCount = stationsName.Count(),
                     UserId = newSub.Id
                 });
 
                 _smtpClient.SendMail("dailyanalytics@kleinmap.com", "to@example.com", "KleinMap verify code", mailTemplate);
                 _logger.LogInformation("Sended verify e-mail to {mailAddress} at: {time}", newSub.MailAddress, DateTimeOffset.Now);
-
-                int isUpdate = await _databaseClient
-                    .ExecuteModifyQuery($"UPDATE Subscribers SET [IsSendVerifyCode] = 1 WHERE [Id] = {newSub.Id}");
-
-                _logger.LogInformation("IsSendVerifyCode updated for {mailAddress} at: {time} with status: {isUpdate}",
-                    newSub.MailAddress, DateTimeOffset.Now, isUpdate);
             }
         }
 

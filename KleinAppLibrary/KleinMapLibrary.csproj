@@ -10,7 +10,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
     <PackageReference Include="RazorEngineCore" Version="2020.10.1" />
     <PackageReference Include="System.Collections" Version="4.3.0" />
-    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.113.6" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.113.7" />
   </ItemGroup>
 
 </Project>
