@@ -19,7 +19,6 @@ namespace KleinMapDataService
         private readonly IConfiguration _configuration;
         private static IEnumerable<Station> AllStations { get; set; }
 
-
         public Worker(ILogger<Worker> logger, IConfiguration config)
         {
             _logger = logger;
@@ -65,6 +64,7 @@ namespace KleinMapDataService
                 }
                 finally
                 {
+                    AllStations = null;
                     await Task.Delay(1800000, stoppingToken);
                 }
             }
